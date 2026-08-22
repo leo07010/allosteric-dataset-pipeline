@@ -1,0 +1,26 @@
+{
+  "n_samples": 1439,
+  "n_unique_uniprot": 327,
+  "n_unique_pdb": 1367,
+  "n_multi_site_groups": 18,
+  "positive_rate": 0.02972,
+  "median_allo_residues": 10,
+  "median_chain_length": 327,
+  "label_definition": "4A heavy-atom to allosteric modulator (AlloBench)",
+  "fold_sizes": {
+    "0": 288,
+    "1": 288,
+    "2": 288,
+    "3": 288,
+    "4": 287
+  },
+  "build_stats": {
+    "ok": 1439,
+    "overlap_trimmed": 598,
+    "allo_unmapped": 14,
+    "allo_gone_after_trim": 51,
+    "active_unmapped": 331,
+    "parse_returned_none": 2,
+    "too_short": 18
+  }
+}
