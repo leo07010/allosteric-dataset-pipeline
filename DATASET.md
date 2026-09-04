@@ -90,6 +90,13 @@ This is not hypothetical. A model trained on the earlier 105-protein ASD set and
 | Median allosteric residues per site | 10 |
 | Median chain length | 327 |
 | Positive rate | 2.97 % |
+| Distinct modulators | 824 |
+| Distinct genes | 263 |
+| Organisms | 105 |
+
+Structures per protein are very uneven: the median UniProt contributes 2 samples and
+half contribute exactly one, while transthyretin alone contributes 114. See
+[6.1](#61-the-327-proteins-are-not-evenly-represented).
 
 ## 5. What is excluded, and why
 
@@ -109,6 +116,38 @@ This is not hypothetical. A model trained on the earlier 105-protein ASD set and
 `active_unmapped` is the largest single loss. Those 331 entries have usable allosteric labels and are excluded only because the seeded formulation requires an anchor; setting `MIN_ACT = 0` recovers them for unanchored use.
 
 ## 6. Known limitations
+
+### 6.1 The 327 proteins are not evenly represented
+
+Sample counts are dominated by a handful of well-crystallised targets:
+
+| | |
+|---|---|
+| Top 10 proteins | 33 % of samples |
+| Top 50 proteins | 66 % of samples |
+| Proteins needed to cover half the samples | 25 |
+| UniProt entries with exactly one sample | 163 (50 %) |
+
+The largest groups are transthyretin (114), muscle glycogen phosphorylase (73), HIV-1
+gag-pol (61), ER-alpha (46) and CRP (35).
+
+This has a direct consequence for the folds. Grouping by UniProt keeps a protein out
+of two folds, but a group that large lands whole in one of them, so folds are balanced
+in sample count and not in composition:
+
+| fold | samples | UniProt | largest single protein |
+|---|---|---|---|
+| 0 | 288 | 63 | TTR, 114 (**40 %**) |
+| 1 | 288 | 65 | PYGM, 73 (25 %) |
+| 2 | 288 | 66 | gag-pol, 61 (21 %) |
+| 3 | 288 | 67 | ESR1, 46 (16 %) |
+| 4 | 287 | 66 | CRP, 35 (12 %) |
+
+Read per-fold numbers with that in mind: fold 0's held-out score is substantially a
+statement about transthyretin. Report the pooled result across folds, or weight by
+UniProt group rather than by sample, if per-protein generalisation is the claim.
+
+### 6.2 Everything else
 
 - **Cα and Cβ only.** No side-chain atoms, though allosteric pockets are largely lined by side chains. The schema has room; the builder does not write them.
 - **No apo/holo pairing.** Structures are the modulator-bound ones AlloBench annotates. Blind prediction from an unbound structure needs apo counterparts this pipeline does not resolve.

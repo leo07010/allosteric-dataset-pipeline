@@ -1,6 +1,4 @@
 data/
 !data/.gitkeep
-*.npz
-*.pdb
 __pycache__/
 *.pyc
